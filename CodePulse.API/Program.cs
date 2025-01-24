@@ -1,4 +1,7 @@
 
+using CodePulse.API.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace CodePulse.API
 {
     public class Program
@@ -14,6 +17,11 @@ namespace CodePulse.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //inject DbContext
+            builder.Services.AddDbContext<ApplicationBbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("connectionstring"));
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
