@@ -26,8 +26,17 @@ namespace CodePulse.API.Controllers
                 Name = request.Name,
                 UrlHandle = request.UrlHandle
             };
-            context.Categories.Add(category);
-            return Ok(category);
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+            //Map again the object added to CategoryDTO
+            var categoryadded = new Category()
+            {
+                Id = category.Id,
+                Name = request.Name,
+                UrlHandle = request.UrlHandle
+            }
+            ;
+            return Ok(categoryadded);
         }
     }
 }
